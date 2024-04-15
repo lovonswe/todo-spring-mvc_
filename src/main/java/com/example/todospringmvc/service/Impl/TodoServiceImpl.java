@@ -2,13 +2,16 @@ package com.example.todospringmvc.service.Impl;
 
 import com.example.todospringmvc.dto.TodoDto;
 import com.example.todospringmvc.exception.RequestBodyEmptyException;
+import com.example.todospringmvc.exception.TodoNotFoundException;
 import com.example.todospringmvc.model.Todo;
 import com.example.todospringmvc.repository.TodoRepository;
 import com.example.todospringmvc.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TodoServiceImpl implements TodoService {
@@ -38,5 +41,14 @@ public class TodoServiceImpl implements TodoService {
                 todoDto.getStatus()
         );
         return todoRepository.save(newTodo);
+    }
+
+    @Override
+    public Todo getTodoById(Long id) throws TodoNotFoundException {
+        Optional<Todo> todo = todoRepository.findById(id);
+        if(todo.isEmpty()) {
+            throw new TodoNotFoundException("Todo not found with id " + id);
+        }
+        return todo.get();
     }
 }

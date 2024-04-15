@@ -2,6 +2,7 @@ package com.example.todospringmvc.controller;
 
 import com.example.todospringmvc.dto.TodoDto;
 import com.example.todospringmvc.exception.RequestBodyEmptyException;
+import com.example.todospringmvc.exception.TodoNotFoundException;
 import com.example.todospringmvc.model.Todo;
 import com.example.todospringmvc.service.Impl.TodoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +30,11 @@ public class TodoController {
         return "components/TodoList";
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Todo> getTodoById(@PathVariable Long id) {
-//
-//    }
+    @GetMapping("/{id}")
+    public String getTodoById(@PathVariable Long id, Model model) throws TodoNotFoundException {
+        Todo todo = todoService.getTodoById(id);
+        return "components/details";
+    }
 
     @PostMapping
     public ResponseEntity<?> addNewTodo(@RequestBody TodoDto todoDto) throws RequestBodyEmptyException {
