@@ -13,4 +13,6 @@ public interface TodoService  {
     public List<Todo> findAllTodo();
     public Todo saveTodo(TodoDto todoDto) throws RequestBodyEmptyException;
     public Todo getTodoById(Long id) throws TodoNotFoundException;
+    public Todo updateTodo(Todo todo) throws TodoNotFoundException;
+    public List<Todo> getAllTodos () throws TodoNotFoundException;
 }

@@ -51,4 +51,36 @@ public class TodoServiceImpl implements TodoService {
         }
         return todo.get();
     }
+
+    @Override
+    public Todo updateTodo(Todo todo) throws TodoNotFoundException {
+        Long id = todo.getId();
+        Todo todoToUpdate = getTodoById(id);
+        Todo updatedTodo = mapTodo(todo, todoToUpdate);
+        return todoRepository.save(updatedTodo);
+    }
+
+    @Override
+    public List<Todo> getAllTodos() throws TodoNotFoundException {
+        List<Todo> todos = todoRepository.findAll();
+        if(todos.isEmpty()){
+            throw new TodoNotFoundException("Todo list is empty.");
+        }
+        return todos;
+    }
+
+    public Todo mapTodo (Todo newTodo, Todo currentTodo) {
+        if(currentTodo.getTitle() != null)
+        currentTodo.setTitle(newTodo.getTitle());
+        if(currentTodo.getDescription() != null)
+            currentTodo.setDescription(newTodo.getDescription());
+        currentTodo.setStar(newTodo.getStar());
+        if(currentTodo.getPriority() != null)
+            currentTodo.setPriority(newTodo.getPriority());
+        if(currentTodo.getStatus() != null)
+            currentTodo.setStatus(newTodo.getStatus());
+        if(currentTodo.getDateTime() != null)
+            currentTodo.setDateTime(newTodo.getDateTime());
+        return currentTodo;
+    }
 }
